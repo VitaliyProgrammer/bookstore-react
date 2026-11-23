@@ -51,7 +51,7 @@ export default function RegisterPage() {
 
   return (
     <div className="auth">
-      <title>Реєстрація — Сторінка</title>
+      <title>Реєстрація — Твоя книгарня</title>
       <section className="auth__card" aria-labelledby="reg-title">
         <h1 className="auth__title" id="reg-title">Реєстрація</h1>
         <ErrorList messages={errors} />

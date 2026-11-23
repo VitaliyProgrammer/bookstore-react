@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer__inner container">
-        <p>© 2026 Сторінка. Українські книжки з доставкою.</p>
+        <p>© 2026 Твоя книгарня. Українські книжки з доставкою.</p>
         <nav className="footer__nav" aria-label="Інформація">
           <Link to="/">Каталог</Link>
           <Link to="/cart">Кошик</Link>

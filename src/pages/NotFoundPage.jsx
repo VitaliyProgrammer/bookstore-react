@@ -4,7 +4,7 @@ import NotFoundMessage from "../components/NotFoundMessage.jsx";
 export default function NotFoundPage() {
   return (
     <>
-      <title>Сторінку не знайдено — Сторінка</title>
+      <title>Сторінку не знайдено — Твоя книгарня</title>
       <NotFoundMessage title="Такої сторінки немає" text="Можливо, посилання застаріло." linkText="На головну" />
     </>
   );

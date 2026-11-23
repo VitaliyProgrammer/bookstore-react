@@ -46,7 +46,7 @@ export default function LoginPage() {
 
   return (
     <div className="auth">
-      <title>Вхід — Сторінка</title>
+      <title>Вхід — Твоя книгарня</title>
       <section className="auth__card" aria-labelledby="login-title">
         <h1 className="auth__title" id="login-title">Вхід</h1>
         {params.has("registered") && (

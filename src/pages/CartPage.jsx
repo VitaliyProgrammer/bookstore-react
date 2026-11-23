@@ -101,7 +101,7 @@ export default function CartPage() {
 
   return (
     <>
-      <title>Кошик — Сторінка</title>
+      <title>Кошик — Твоя книгарня</title>
       <h1 className="page__title">Кошик</h1>
       {status === "loading" && <p className="status-line" role="status">Завантаження…</p>}
       {status === "error" && <div className="alert alert--error" role="alert">{errorText}</div>}

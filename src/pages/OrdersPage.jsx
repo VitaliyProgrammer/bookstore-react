@@ -46,7 +46,7 @@ export default function OrdersPage() {
 
   return (
     <>
-      <title>Мої замовлення — Сторінка</title>
+      <title>Мої замовлення — Твоя книгарня</title>
       <h1 className="page__title">Мої замовлення</h1>
       {status === "loading" && <p className="status-line" role="status">Завантаження…</p>}
       {status === "error" && <div className="alert alert--error" role="alert">{errorText}</div>}

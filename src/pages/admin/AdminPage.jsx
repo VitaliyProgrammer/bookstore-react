@@ -57,7 +57,7 @@ export default function AdminPage() {
 
   return (
     <div className="admin">
-      <title>Адмінка — Сторінка</title>
+      <title>Адмінка — Твоя книгарня</title>
       <div className="admin__content">
         <div className="toolbar">
           <h1 className="page__title">Книги</h1>

@@ -9,7 +9,7 @@ import { getCategories, getCategoryBooks } from "../api/categories.js";
 import { addToCart, countItems } from "../api/cart.js";
 import { userMessage } from "../utils/errors.js";
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 12;
 
 // Який ендпоінт викликати: категорія → /categories/{id}/books, є текст → /books/search, інакше → /books.
 function fetchBooks({ page, title, author, categoryId }, signal) {
@@ -88,7 +88,7 @@ export default function CatalogPage() {
 
   return (
     <>
-      <title>Каталог — Сторінка</title>
+      <title>Каталог — Твоя книгарня</title>
       <section className="hero">
         <h1 className="hero__title">Українські книжки з доставкою по всій країні</h1>
         <p className="hero__text">Класика, сучасна проза і поезія. Нові надходження щопонеділка.</p>

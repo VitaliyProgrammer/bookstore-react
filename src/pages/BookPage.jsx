@@ -82,7 +82,7 @@ export default function BookPage() {
 
   return (
     <>
-      <title>{book ? `${book.title} — Сторінка` : "Книга — Сторінка"}</title>
+      <title>{book ? `${book.title} — Твоя книгарня` : "Книга — Твоя книгарня"}</title>
       <nav className="breadcrumbs" aria-label="Breadcrumb">
         <ol className="breadcrumbs__list">
           <li><Link to="/">Каталог</Link></li>
