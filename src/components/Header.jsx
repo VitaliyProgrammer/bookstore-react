@@ -30,7 +30,7 @@ export default function Header() {
         <Link className="header__logo" to="/">
           <picture>
             <source media={DARK} srcSet={logoDarkUrl} />
-            <img src={logoUrl} alt="Твоя книгарня" width="78" height="48" />
+            <img src={logoUrl} alt="Твоя книгарня" width="100" height="62" />
           </picture>
         </Link>
         <nav className="nav" aria-label="Головна навігація">

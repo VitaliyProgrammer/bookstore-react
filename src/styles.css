@@ -5,8 +5,10 @@
   --color-text: #1c1917;
   --color-muted: #6b625a;
   --color-line: #e7e0d6;
-  --color-brand: #7a2e1f;
-  --color-brand-dark: #5c2116;
+  /* Вишнева палітра в тон логотипу (замість темно-коричневої) */
+  --color-brand: #c2304a;
+  --color-brand-dark: #9e2139;
+  --color-brand-soft: #fbe9ec;
   --color-on-brand: #ffffff;
   --color-accent: #e0a526;
   --color-success: #1b7a43;
@@ -23,9 +25,13 @@
   --radius: 10px;
   --radius-lg: 16px;
   --shadow: 0 2px 10px rgb(28 25 23 / 8%);
+  --shadow-sm: 0 1px 2px rgb(28 25 23 / 6%), 0 1px 4px rgb(28 25 23 / 6%);
+  --shadow-panel: 0 12px 32px rgb(28 25 23 / 10%), 0 2px 6px rgb(28 25 23 / 6%);
+  --shadow-brand: 0 3px 10px rgb(194 48 74 / 28%);
+  --ring: 0 0 0 3px rgb(194 48 74 / 22%);
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Lora", Georgia, serif;
-  --header-h: 64px;
+  --header-h: 80px;
 }
 
 *,
@@ -150,12 +156,19 @@ a:hover {
   border-radius: var(--radius);
 }
 
+/* Mobile-first: на телефоні логотип 50px, з планшета — 62px */
 .header__logo img {
   display: block;
-  height: 48px;
+  height: 50px;
   width: auto;
   transform-origin: left center;
   transition: transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1), filter 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .header__logo img {
+    height: 62px;
+  }
 }
 
 .header__logo:hover img,
@@ -208,6 +221,19 @@ a:hover {
   height: 26px;
 }
 
+/* На телефоні email не влазить у шапку — показуємо його з планшета */
+.header__user {
+  display: none;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .header__user {
+    display: inline;
+  }
+}
+
 /* Лічильник сидить у правому верхньому куті візка; біле кільце відділяє його від ліній іконки */
 .header__count {
   position: absolute;
@@ -238,33 +264,48 @@ a:hover {
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 150ms ease, border-color 150ms ease;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Кнопки з легкою тінню: у primary тінь у кольорі бренду, тому кнопка ніби «світиться» */
 .btn--primary {
   background: var(--color-brand);
   color: var(--color-on-brand);
+  box-shadow: var(--shadow-brand);
 }
 
 .btn--primary:hover {
   background: var(--color-brand-dark);
   color: var(--color-on-brand);
+  box-shadow: 0 6px 16px rgb(194 48 74 / 32%);
 }
 
 .btn--ghost {
-  background: transparent;
+  background: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-line);
 }
 
 .btn--ghost:hover {
-  color: var(--color-text);
-  border-color: var(--color-muted);
+  color: var(--color-brand);
+  border-color: var(--color-brand);
+  box-shadow: 0 4px 12px rgb(28 25 23 / 10%);
 }
 
 .btn--danger {
   background: var(--color-danger);
   color: #ffffff;
+  box-shadow: 0 3px 10px rgb(191 46 58 / 25%);
 }
 
 .btn--sm {
@@ -279,6 +320,7 @@ a:hover {
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .footer {
@@ -304,11 +346,14 @@ a:hover {
   color: inherit;
 }
 
+/* Банер: живий градієнт вишня → корал; знизу більший відступ, бо на нього «наїжджає» панель пошуку */
 .hero {
-  padding: var(--space-8) var(--space-6);
+  padding: var(--space-8) var(--space-6) calc(var(--space-8) + 2.5rem);
   border-radius: var(--radius-lg);
   color: #ffffff;
-  background: linear-gradient(135deg, #7a2e1f, #b4532a);
+  background:
+    radial-gradient(circle at 85% 15%, rgb(255 255 255 / 18%), transparent 45%),
+    linear-gradient(120deg, #a8233b 0%, #d6465c 55%, #f0875c 100%);
 }
 
 .hero__title {
@@ -322,16 +367,52 @@ a:hover {
   opacity: 0.9;
 }
 
+/* Панель пошуку «плаває» над нижнім краєм банера: біла картка з м'якою тінню */
 .search {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-4);
   align-items: end;
-  margin-top: var(--space-6);
-  padding: var(--space-6);
+  margin: -2.5rem var(--space-4) 0;
+  padding: var(--space-4) var(--space-6) var(--space-6);
   background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-panel);
+}
+
+.search .field__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Поля пошуку: м'який фон, іконка лупи, «вдавлена» тінь; при фокусі біліють і отримують кільце бренду */
+.search .field__input {
+  padding: 0.8rem 1rem 0.8rem 2.6rem;
+  border-color: transparent;
+  border-radius: 12px;
+  background: var(--color-surface-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a8f85' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 0.85rem center / 18px;
+  box-shadow: inset 0 1px 2px rgb(28 25 23 / 6%);
+}
+
+.search .field__input:hover {
+  border-color: var(--color-line);
+}
+
+.search .field__input:focus-visible {
+  background-color: var(--color-surface);
+  border-color: var(--color-brand);
+  box-shadow: var(--ring);
+}
+
+.search .btn {
+  padding-block: 0.85rem;
+  border-radius: 12px;
 }
 
 .field {
@@ -361,7 +442,7 @@ a:hover {
 .field__input:focus-visible {
   outline: none;
   border-color: var(--color-brand);
-  box-shadow: 0 0 0 3px rgb(122 46 31 / 20%);
+  box-shadow: var(--ring);
 }
 
 .field__input:user-invalid {
@@ -387,16 +468,23 @@ a:hover {
   color: var(--color-text);
   font-size: 0.875rem;
   text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 .chip:hover {
   border-color: var(--color-brand);
+  background: var(--color-brand-soft);
+  color: var(--color-brand-dark);
 }
 
-.chip--active {
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-color: var(--color-text);
+.chip--active,
+.chip--active:hover {
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-brand);
 }
 
 .catalog {
@@ -1301,8 +1389,9 @@ textarea.field__input {
   --color-text: #f1ece6;
   --color-muted: #b3a89d;
   --color-line: #3a332e;
-  --color-brand: #e8957a;
-  --color-brand-dark: #f2b19c;
+  --color-brand: #f07f93;
+  --color-brand-dark: #f6a3b2;
+  --color-brand-soft: #3a1f26;
   --color-on-brand: #1c1917;
   --shadow: 0 2px 10px rgb(0 0 0 / 40%);
   color-scheme: dark;
@@ -1316,8 +1405,9 @@ textarea.field__input {
     --color-text: #f1ece6;
     --color-muted: #b3a89d;
     --color-line: #3a332e;
-    --color-brand: #e8957a;
-    --color-brand-dark: #f2b19c;
+    --color-brand: #f07f93;
+    --color-brand-dark: #f6a3b2;
+    --color-brand-soft: #3a1f26;
     --color-on-brand: #1c1917;
     --shadow: 0 2px 10px rgb(0 0 0 / 40%);
     color-scheme: dark;
