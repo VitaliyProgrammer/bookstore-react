@@ -347,14 +347,15 @@ a:hover {
   color: inherit;
 }
 
-/* Банер: живий градієнт вишня → корал; знизу більший відступ, бо на нього «наїжджає» панель пошуку */
+/* Банер: глибокий червоний градієнт в одному тоні (без білих відблисків, щоб край не здавався вицвілим);
+   м'яке тепле світіння справа додає об'єму. Знизу більший відступ — на банер «наїжджає» панель пошуку */
 .hero {
   padding: var(--space-8) var(--space-6) calc(var(--space-8) + 2.5rem);
   border-radius: var(--radius-lg);
   color: #ffffff;
   background:
-    radial-gradient(circle at 85% 15%, rgb(255 255 255 / 18%), transparent 45%),
-    linear-gradient(120deg, #9e2b23 0%, #c2403a 55%, #dd6b57 100%);
+    radial-gradient(ellipse 60% 90% at 100% 0%, rgb(214 72 58 / 45%), transparent 70%),
+    linear-gradient(115deg, #7f1f19 0%, #9e2b23 35%, #b5352d 70%, #bf3a30 100%);
 }
 
 .hero__title {

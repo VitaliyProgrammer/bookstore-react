@@ -90,7 +90,7 @@ export default function CatalogPage() {
     <>
       <title>Каталог — Твоя книгарня</title>
       <section className="hero">
-        <h1 className="hero__title">Українські книжки з доставкою по всій країні</h1>
+        <h1 className="hero__title">Книжки з доставкою по всій Україні</h1>
         <p className="hero__text">Класика, сучасна проза і поезія. Нові надходження щопонеділка.</p>
       </section>
 
