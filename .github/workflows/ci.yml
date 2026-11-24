@@ -1,0 +1,25 @@
+# Збірка фронтенду на кожен PR і push у main.
+# Якщо `vite build` падає (синтаксична помилка, битий імпорт) — PR не можна мерджити.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Та сама мажорна версія Node, що й локально; npm-кеш пришвидшує повторні запуски
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      # npm ci ставить точно ті версії, що в package-lock.json (на відміну від npm install)
+      - run: npm ci
+      - run: npm run build
