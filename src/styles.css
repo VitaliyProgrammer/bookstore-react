@@ -27,7 +27,12 @@
   --shadow: 0 2px 10px rgb(28 25 23 / 8%);
   --shadow-sm: 0 1px 2px rgb(28 25 23 / 6%), 0 1px 4px rgb(28 25 23 / 6%);
   --shadow-panel: 0 12px 32px rgb(28 25 23 / 10%), 0 2px 6px rgb(28 25 23 / 6%);
-  --shadow-brand: 0 4px 14px rgb(191 58 48 / 34%);
+  /* Нейтральні (чорні) тіні «піднятих» елементів: червона тінь біля червоної кнопки виглядає як брудна пляма */
+  --shadow-raised: 0 3px 10px rgb(0 0 0 / 16%), 0 1px 2px rgb(0 0 0 / 12%);
+  --shadow-raised-hover: 0 6px 16px rgb(0 0 0 / 20%), 0 2px 4px rgb(0 0 0 / 14%);
+  /* Головні дії (У кошик, Знайти, активний жанр) — на рівень помітніше */
+  --shadow-main: 0 4px 12px rgb(0 0 0 / 22%), 0 1px 3px rgb(0 0 0 / 18%);
+  --shadow-main-hover: 0 8px 20px rgb(0 0 0 / 26%), 0 2px 5px rgb(0 0 0 / 18%);
   --shadow-btn: 0 2px 4px rgb(28 25 23 / 8%), 0 4px 14px rgb(28 25 23 / 10%);
   --ring: 0 0 0 3px rgb(191 58 48 / 22%);
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -282,13 +287,13 @@ a:hover {
 .btn--primary {
   background: var(--color-brand);
   color: var(--color-on-brand);
-  box-shadow: var(--shadow-brand);
+  box-shadow: var(--shadow-raised);
 }
 
 .btn--primary:hover {
   background: var(--color-brand-dark);
   color: var(--color-on-brand);
-  box-shadow: 0 8px 22px rgb(191 58 48 / 40%);
+  box-shadow: var(--shadow-raised-hover);
 }
 
 .btn--ghost {
@@ -306,7 +311,7 @@ a:hover {
 .btn--danger {
   background: var(--color-danger);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgb(191 46 58 / 32%);
+  box-shadow: var(--shadow-raised);
 }
 
 .btn--sm {
@@ -627,7 +632,7 @@ a.contact-card__big:hover {
   background: var(--color-brand);
   color: var(--color-on-brand);
   font-weight: 600;
-  box-shadow: var(--shadow-brand);
+  box-shadow: var(--shadow-raised);
 }
 
 @media (min-width: 1024px) {
@@ -668,7 +673,6 @@ a.contact-card__big:hover {
     border-color: var(--color-brand);
     background: var(--color-brand);
     color: var(--color-on-brand);
-    box-shadow: none;
   }
 }
 
@@ -741,7 +745,7 @@ a.contact-card__big:hover {
   background: var(--color-brand);
   color: var(--color-on-brand);
   border-color: var(--color-brand);
-  box-shadow: var(--shadow-brand);
+  box-shadow: var(--shadow-raised);
 }
 
 .catalog {
@@ -802,16 +806,18 @@ a.contact-card__big:hover {
   margin-top: auto;
 }
 
-/* Головні дії сторінки («У кошик», «Знайти») — з помітнішою нейтральною (темною) тінню, ніж звичайні кнопки.
-   Два класи в селекторі, щоб перемогти .btn--primary і .btn--primary:hover незалежно від порядку в файлі */
+/* Головні дії сторінки («У кошик», «Знайти», активний жанр) — на рівень помітніша нейтральна тінь.
+   Два класи в селекторі (специфічність 0,2,0) перемагають .btn--primary і правила з медіазапитів
+   незалежно від порядку в файлі */
 .btn--primary.book-card__btn,
-.search .btn--primary {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 22%), 0 1px 3px rgb(0 0 0 / 18%);
+.search .btn--primary,
+.genres .genres__item--active {
+  box-shadow: var(--shadow-main);
 }
 
 .btn--primary.book-card__btn:hover:not(:disabled),
 .search .btn--primary:hover {
-  box-shadow: 0 8px 20px rgb(0 0 0 / 26%), 0 2px 5px rgb(0 0 0 / 18%);
+  box-shadow: var(--shadow-main-hover);
 }
 
 .btn--primary.book-card__btn:active:not(:disabled),
@@ -1366,7 +1372,7 @@ a.contact-card__big:hover {
 .radio-card:has(.radio-card__input:checked) {
   border-color: var(--color-brand);
   background: var(--color-brand-soft);
-  box-shadow: var(--shadow-brand);
+  box-shadow: var(--shadow-raised);
 }
 
 .radio-card:has(.radio-card__input:checked) .radio-card__icon {
