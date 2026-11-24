@@ -37,8 +37,8 @@ export default function LoginPage() {
       await login(email, form.password);
       navigate(safeReturnTo(params.get("returnTo")), { replace: true });
     } catch (err) {
-      // Твій бекенд на невірні дані відповідає 404 (UserNotFoundException) або 500 — показуємо одне повідомлення.
-      setError(err.status === 404 || err.status === 500 ? "Невірний email або пароль" : userMessage(err));
+      // Бекенд на будь-які невірні дані відповідає 401 з однаковим текстом (не видає, чи існує email).
+      setError(err.status === 401 ? "Невірний email або пароль" : userMessage(err));
     } finally {
       setSubmitting(false);
     }
