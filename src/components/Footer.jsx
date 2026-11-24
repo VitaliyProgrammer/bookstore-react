@@ -11,6 +11,7 @@ export default function Footer() {
           <Link to="/">Каталог</Link>
           <Link to="/cart">Кошик</Link>
           <Link to="/orders">Замовлення</Link>
+          <Link to="/contacts">Контакти</Link>
         </nav>
       </div>
     </footer>

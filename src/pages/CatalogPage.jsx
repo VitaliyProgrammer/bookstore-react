@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import BookCard from "../components/BookCard.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { useToast } from "../context/ToastContext.jsx";
@@ -8,6 +9,7 @@ import { getBooks, searchBooks } from "../api/books.js";
 import { getCategories, getCategoryBooks } from "../api/categories.js";
 import { addToCart, countItems } from "../api/cart.js";
 import { userMessage } from "../utils/errors.js";
+import { SHOP } from "../shop.js";
 
 const PAGE_SIZE = 12;
 
@@ -92,6 +94,11 @@ export default function CatalogPage() {
       <section className="hero">
         <h1 className="hero__title">Книжки з доставкою по всій Україні</h1>
         <p className="hero__text">Класика, сучасна проза і поезія. Нові надходження щопонеділка.</p>
+        <p className="hero__pickup">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" /></svg>
+          Або самовивіз у Києві: {SHOP.address}
+          <Link to="/contacts">Контакти</Link>
+        </p>
       </section>
 
       {/* Пошук працює «на льоту» через debounce, тому submit лише не дає сторінці перезавантажитись */}

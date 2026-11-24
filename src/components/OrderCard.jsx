@@ -2,10 +2,24 @@ import { STATUS_LABELS } from "../api/orders.js";
 import { formatPrice } from "../utils/money.js";
 import { formatOrderDate } from "../utils/dates.js";
 
-// CheckoutForm зберігає дані доставки одним рядком: «Прізвище Ім'я; м. Місто; Служба, спосіб: адреса; Коментар: …».
-// Розбираємо його назад на підписані рядки. Старі замовлення з довільною адресою показуємо як є.
+// CheckoutForm зберігає дані доставки одним рядком:
+//   новий формат:  «Прізвище Ім'я; +380…; email; м. Місто; Доставка; Коментар: …»
+//   старий формат: «Прізвище Ім'я; м. Місто; Доставка; Коментар: …»
+// Розбираємо його назад на підписані рядки. Замовлення з довільною адресою показуємо як є.
 function parseDelivery(text) {
   const parts = text.split("; ");
+  if (parts.length >= 5 && parts[1].startsWith("+380") && parts[3].startsWith("м. ")) {
+    const rows = [
+      ["Отримувач", parts[0]],
+      ["Телефон", parts[1]],
+      ["Email", parts[2]],
+      ["Місто", parts[3].slice(3)],
+      ["Доставка", parts[4]]
+    ];
+    const comment = parts.slice(5).join("; ");
+    if (comment) rows.push(["Коментар", comment.replace(/^Коментар: /, "")]);
+    return rows;
+  }
   if (parts.length < 3 || !parts[1].startsWith("м. ")) return [["Адреса", text]];
   const rows = [
     ["Отримувач", parts[0]],

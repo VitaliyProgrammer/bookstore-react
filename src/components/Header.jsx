@@ -37,6 +37,7 @@ export default function Header() {
           <NavLink className={navClass} to="/" end>Каталог</NavLink>
           {isLoggedIn && <NavLink className={navClass} to="/orders">Замовлення</NavLink>}
           {isAdmin && <NavLink className={navClass} to="/admin">Адмінка</NavLink>}
+          <NavLink className={navClass} to="/contacts">Контакти</NavLink>
         </nav>
         <div className="header__actions">
           {isLoggedIn ? (
