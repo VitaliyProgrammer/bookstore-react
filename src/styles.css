@@ -802,21 +802,21 @@ a.contact-card__big:hover {
   margin-top: auto;
 }
 
-/* Головні дії сторінки («У кошик», «Знайти») — з помітнішою червоною тінню, ніж звичайні кнопки.
+/* Головні дії сторінки («У кошик», «Знайти») — з помітнішою нейтральною (темною) тінню, ніж звичайні кнопки.
    Два класи в селекторі, щоб перемогти .btn--primary і .btn--primary:hover незалежно від порядку в файлі */
 .btn--primary.book-card__btn,
 .search .btn--primary {
-  box-shadow: 0 6px 18px rgb(191 58 48 / 42%), 0 2px 4px rgb(28 25 23 / 12%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 22%), 0 1px 3px rgb(0 0 0 / 18%);
 }
 
 .btn--primary.book-card__btn:hover:not(:disabled),
 .search .btn--primary:hover {
-  box-shadow: 0 10px 26px rgb(191 58 48 / 48%), 0 3px 6px rgb(28 25 23 / 14%);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 26%), 0 2px 5px rgb(0 0 0 / 18%);
 }
 
 .btn--primary.book-card__btn:active:not(:disabled),
 .search .btn--primary:active {
-  box-shadow: 0 2px 6px rgb(191 58 48 / 35%);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 22%);
 }
 
 .book-card__badge {
