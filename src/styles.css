@@ -1181,6 +1181,38 @@ textarea.field__input {
   font-size: 0.875rem;
 }
 
+/* Дані доставки: окрема біла «картка» з підписаними рядками, щоб їх було легко прочитати */
+.order__delivery {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  font-size: 1rem;
+}
+
+.order__delivery-row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.order__delivery dt {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  padding-top: 0.1rem;
+}
+
+.order__delivery dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
 .status {
   display: inline-flex;
   align-items: center;
@@ -1245,6 +1277,16 @@ textarea.field__input {
 
 .items :where(th, td):last-child {
   text-align: right;
+}
+
+/* Колонка кількості: заголовок «К-сть» і цифри по центру одне під одним */
+.items .items__qty {
+  width: 5rem;
+  text-align: center;
+}
+
+.items__author {
+  color: var(--color-muted);
 }
 
 .order__total {

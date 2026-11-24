@@ -3,7 +3,16 @@ import { Link, useSearchParams } from "react-router";
 import OrderCard from "../components/OrderCard.jsx";
 import { useToast } from "../context/ToastContext.jsx";
 import { getOrders } from "../api/orders.js";
+import { getBook } from "../api/books.js";
 import { userMessage } from "../utils/errors.js";
+
+// OrderItemResponseDto не містить автора, тому довантажуємо кожну книгу один раз (без дублів).
+// Якщо книгу вже видалили з каталогу — просто показуємо назву без автора.
+async function loadAuthors(orders) {
+  const ids = [...new Set(orders.flatMap(order => order.orderItems.map(item => item.bookId)))];
+  const books = await Promise.all(ids.map(id => getBook(id).catch(() => null)));
+  return Object.fromEntries(ids.map((id, i) => [id, books[i]?.author ?? null]));
+}
 
 // OrdersPage — історія замовлень (orders.html + js/pages/orders.js).
 // ?created=ID приходить з кошика після оформлення: таке замовлення підсвічуємо й показуємо toast.
@@ -13,6 +22,7 @@ export default function OrdersPage() {
   const createdId = Number(params.get("created")) || null;
 
   const [orders, setOrders] = useState([]);
+  const [authors, setAuthors] = useState({});
   const [status, setStatus] = useState("loading");
   const [errorText, setErrorText] = useState("");
   // У режимі розробки StrictMode запускає ефекти двічі; ref гарантує, що toast покажеться один раз.
@@ -21,9 +31,11 @@ export default function OrdersPage() {
   useEffect(() => {
     let ignore = false;
     getOrders()
-      .then(data => {
+      .then(async data => {
+        const authorsById = await loadAuthors(data);
         if (ignore) return;
         setOrders(data.toSorted((a, b) => b.id - a.id));
+        setAuthors(authorsById);
         setStatus("ready");
       })
       .catch(error => {
@@ -54,7 +66,7 @@ export default function OrdersPage() {
       {status === "ready" && orders.length > 0 && (
         <ul className="orders">
           {orders.map(order => (
-            <OrderCard key={order.id} order={order} isNew={order.id === createdId} />
+            <OrderCard key={order.id} order={order} authors={authors} isNew={order.id === createdId} />
           ))}
         </ul>
       )}
