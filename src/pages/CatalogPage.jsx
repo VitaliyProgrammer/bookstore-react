@@ -96,8 +96,9 @@ export default function CatalogPage() {
         <p className="hero__text">Класика, сучасна проза і поезія. Нові надходження щопонеділка.</p>
         <p className="hero__pickup">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" /></svg>
-          Або самовивіз у Києві: {SHOP.address}
-          <Link to="/contacts">Контакти</Link>
+          <span>
+            Або самовивіз у Києві: {SHOP.address} <Link to="/contacts">Контакти</Link>
+          </span>
         </p>
       </section>
 
@@ -114,23 +115,27 @@ export default function CatalogPage() {
             autoComplete="off" value={filters.author} onChange={handleFilterChange} />
         </div>
         <button className="btn btn--primary" type="submit">Знайти</button>
-      </form>
 
-      {categories.length > 0 && (
-        <ul className="chips" aria-label="Категорії">
-          {chips.map(category => {
-            const active = category.id === categoryId;
-            return (
-              <li key={category.id ?? "all"}>
-                <button type="button" className={active ? "chip chip--active" : "chip"} aria-pressed={active}
-                  onClick={() => handleCategoryClick(category.id)}>
-                  {category.name}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+        {/* Жанри — частина того самого фільтра, тому живуть у тій самій панелі і мають ті самі відступи */}
+        {categories.length > 0 && (
+          <div className="search__genres">
+            <span className="field__label" id="genres-label">Жанр</span>
+            <ul className="chips" aria-labelledby="genres-label">
+              {chips.map(category => {
+                const active = category.id === categoryId;
+                return (
+                  <li key={category.id ?? "all"}>
+                    <button type="button" className={active ? "chip chip--active" : "chip"} aria-pressed={active}
+                      onClick={() => handleCategoryClick(category.id)}>
+                      {category.name}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </form>
 
       {!error && (
         <p className="status-line" role="status">
