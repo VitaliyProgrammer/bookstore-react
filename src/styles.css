@@ -802,6 +802,23 @@ a.contact-card__big:hover {
   margin-top: auto;
 }
 
+/* Головні дії сторінки («У кошик», «Знайти») — з помітнішою червоною тінню, ніж звичайні кнопки.
+   Два класи в селекторі, щоб перемогти .btn--primary і .btn--primary:hover незалежно від порядку в файлі */
+.btn--primary.book-card__btn,
+.search .btn--primary {
+  box-shadow: 0 6px 18px rgb(191 58 48 / 42%), 0 2px 4px rgb(28 25 23 / 12%);
+}
+
+.btn--primary.book-card__btn:hover:not(:disabled),
+.search .btn--primary:hover {
+  box-shadow: 0 10px 26px rgb(191 58 48 / 48%), 0 3px 6px rgb(28 25 23 / 14%);
+}
+
+.btn--primary.book-card__btn:active:not(:disabled),
+.search .btn--primary:active {
+  box-shadow: 0 2px 6px rgb(191 58 48 / 35%);
+}
+
 .book-card__badge {
   position: absolute;
   top: var(--space-4);
