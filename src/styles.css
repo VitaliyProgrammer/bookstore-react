@@ -558,16 +558,31 @@ a.contact-card__big:hover {
   border-radius: 12px;
 }
 
-/* Рядок жанрів на всю ширину панелі, відділений тонкою лінією від полів пошуку */
-.search__genres {
-  grid-column: 1 / -1;
+/* Каталог з панеллю жанрів.
+   Телефон/планшет: жанри — горизонтальна стрічка над книгами (гортається пальцем).
+   Десктоп: жанри — вертикальна «липка» панель зліва, книги — праворуч */
+.catalog-layout {
   display: grid;
-  gap: 0.375rem;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-line);
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  align-items: start;
 }
 
-.search__genres .field__label {
+.catalog-main {
+  min-width: 0;
+}
+
+.catalog-main .catalog {
+  margin-top: var(--space-4);
+}
+
+.genres {
+  min-width: 0;
+}
+
+.genres__title {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -575,8 +590,87 @@ a.contact-card__big:hover {
   color: var(--color-muted);
 }
 
-.search__genres .chips {
-  margin-top: 0;
+.genres__list {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 0 var(--space-2);
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.genres__item {
+  flex: none;
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.genres__item:hover {
+  border-color: var(--color-brand);
+  background: var(--color-brand-soft);
+  color: var(--color-brand-dark);
+}
+
+.genres__item--active,
+.genres__item--active:hover {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  font-weight: 600;
+  box-shadow: var(--shadow-brand);
+}
+
+@media (min-width: 1024px) {
+  .catalog-layout {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  /* Вертикальна панель: біла картка, що «прилипає» під шапкою під час прокрутки */
+  .genres {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-4));
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 20px;
+    box-shadow: var(--shadow-panel);
+  }
+
+  .genres__list {
+    flex-direction: column;
+    gap: 2px;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .genres__item {
+    border-color: transparent;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+    white-space: normal;
+  }
+
+  /* Активний пункт оголошуємо ПІСЛЯ .genres__item: специфічність однакова,
+     тож перемагає те, що нижче — інакше прозорий фон зверху «з'їв» би червоний */
+  .genres__item--active,
+  .genres__item--active:hover {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+    box-shadow: none;
+  }
 }
 
 .field {

@@ -115,49 +115,54 @@ export default function CatalogPage() {
             autoComplete="off" value={filters.author} onChange={handleFilterChange} />
         </div>
         <button className="btn btn--primary" type="submit">Знайти</button>
+      </form>
 
-        {/* Жанри — частина того самого фільтра, тому живуть у тій самій панелі і мають ті самі відступи */}
+      {/* Каталог: ліворуч вертикальна панель жанрів, праворуч книги.
+          На телефоні панель стає горизонтальною стрічкою, яку гортають пальцем */}
+      <div className="catalog-layout">
         {categories.length > 0 && (
-          <div className="search__genres">
-            <span className="field__label" id="genres-label">Жанр</span>
-            <ul className="chips" aria-labelledby="genres-label">
+          <aside className="genres" aria-labelledby="genres-title">
+            <h2 className="genres__title" id="genres-title">Жанри</h2>
+            <ul className="genres__list">
               {chips.map(category => {
                 const active = category.id === categoryId;
                 return (
                   <li key={category.id ?? "all"}>
-                    <button type="button" className={active ? "chip chip--active" : "chip"} aria-pressed={active}
-                      onClick={() => handleCategoryClick(category.id)}>
+                    <button type="button" className={active ? "genres__item genres__item--active" : "genres__item"}
+                      aria-pressed={active} onClick={() => handleCategoryClick(category.id)}>
                       {category.name}
                     </button>
                   </li>
                 );
               })}
             </ul>
-          </div>
+          </aside>
         )}
-      </form>
 
-      {!error && (
-        <p className="status-line" role="status">
-          {loading ? "Завантаження…" : `Знайдено книг: ${result?.totalElements ?? 0}`}
-        </p>
-      )}
-      {error && <div className="alert alert--error" role="alert">{error}</div>}
+        <section className="catalog-main" aria-label="Книги">
+          {!error && (
+            <p className="status-line" role="status">
+              {loading ? "Завантаження…" : `Знайдено книг: ${result?.totalElements ?? 0}`}
+            </p>
+          )}
+          {error && <div className="alert alert--error" role="alert">{error}</div>}
 
-      <ul className="catalog" aria-busy={loading}>
-        {books.map(book => (
-          <BookCard key={book.id} book={book} busy={addingId === book.id} onAddToCart={handleAddToCart} />
-        ))}
-      </ul>
+          <ul className="catalog" aria-busy={loading}>
+            {books.map(book => (
+              <BookCard key={book.id} book={book} busy={addingId === book.id} onAddToCart={handleAddToCart} />
+            ))}
+          </ul>
 
-      {!loading && !error && books.length === 0 && (
-        <section className="empty" aria-labelledby="empty-title">
-          <h2 className="empty__title" id="empty-title">Нічого не знайдено</h2>
-          <p className="empty__text">Спробуйте змінити запит або обрати іншу категорію.</p>
+          {!loading && !error && books.length === 0 && (
+            <section className="empty" aria-labelledby="empty-title">
+              <h2 className="empty__title" id="empty-title">Нічого не знайдено</h2>
+              <p className="empty__text">Спробуйте змінити запит або обрати іншу категорію.</p>
+            </section>
+          )}
+
+          <Pagination page={page} totalPages={result?.totalPages ?? 0} onChange={setPage} />
         </section>
-      )}
-
-      <Pagination page={page} totalPages={result?.totalPages ?? 0} onChange={setPage} />
+      </div>
     </>
   );
 }
