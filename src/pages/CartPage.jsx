@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import CartItem from "../components/CartItem.jsx";
+import CheckoutForm from "../components/CheckoutForm.jsx";
 import { useToast } from "../context/ToastContext.jsx";
 import { useCart } from "../context/CartContext.jsx";
 import { getCart, updateQuantity, removeItem } from "../api/cart.js";
@@ -10,6 +11,7 @@ import { formatPrice } from "../utils/money.js";
 import { userMessage } from "../utils/errors.js";
 
 // CartPage — кошик і оформлення замовлення (cart.html + js/pages/cart.js).
+// Розкладка: ліворуч список книг і форма оформлення, праворуч липкий підсумок з кнопкою.
 // CartItemResponseDto не містить ціни й обкладинки, тому для кожної позиції догружаємо книгу (як у лабораторній).
 // Підсумок (кількість і сума) не зберігається в стані, а рахується з items при кожному рендері.
 export default function CartPage() {
@@ -20,7 +22,6 @@ export default function CartPage() {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("loading");
   const [errorText, setErrorText] = useState("");
-  const [shippingAddress, setShippingAddress] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -81,16 +82,11 @@ export default function CartPage() {
     }
   }
 
-  async function handleCheckout(event) {
-    event.preventDefault();
-    const address = shippingAddress.trim();
-    if (!address) {
-      showToast("Вкажіть адресу доставки", "error");
-      return;
-    }
+  // CheckoutForm вже перевірив поля і зібрав їх в один рядок shippingAddress.
+  async function handleCheckout(shippingAddress) {
     setSubmitting(true);
     try {
-      const order = await createOrder(address);
+      const order = await createOrder(shippingAddress);
       refresh();
       navigate(`/orders?created=${order.id}`);
     } catch (error) {
@@ -113,22 +109,17 @@ export default function CartPage() {
               <CartItem key={item.id} item={item} onQuantityChange={handleQuantityChange} onRemove={handleRemove} />
             ))}
           </ul>
+          <CheckoutForm onSubmit={handleCheckout} />
           <aside className="summary" aria-labelledby="summary-title">
             <h2 className="summary__title" id="summary-title">Разом</h2>
             <dl className="summary__list">
-              <div className="summary__row"><dt>Книжок</dt><dd>{count}</dd></div>
-              <div className="summary__row"><dt>Сума</dt><dd>{formatPrice(total)}</dd></div>
+              <div className="summary__row"><dt>Книжок</dt><dd>{count} шт.</dd></div>
+              <div className="summary__row summary__row--total"><dt>До сплати</dt><dd>{formatPrice(total)}</dd></div>
             </dl>
-            <form className="checkout" noValidate onSubmit={handleCheckout}>
-              <div className="field">
-                <label className="field__label" htmlFor="ship">Адреса доставки</label>
-                <textarea className="field__input" id="ship" name="shippingAddress" rows="3" required
-                  value={shippingAddress} onChange={event => setShippingAddress(event.target.value)} />
-              </div>
-              <button className="btn btn--primary btn--block" type="submit" disabled={submitting}>
-                Оформити замовлення
-              </button>
-            </form>
+            {/* Кнопка поза формою, але відправляє її завдяки атрибуту form */}
+            <button className="btn btn--primary btn--block" type="submit" form="checkout-form" disabled={submitting}>
+              {submitting ? "Оформлюємо…" : "Оформити замовлення"}
+            </button>
           </aside>
         </div>
       )}

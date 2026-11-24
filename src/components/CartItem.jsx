@@ -19,17 +19,20 @@ export default function CartItem({ item, onQuantityChange, onRemove }) {
       <img className="cart-item__cover" src={item.coverImage ?? NO_COVER} alt="" />
       <h2 className="cart-item__title">{item.bookTitle}</h2>
       <p className="cart-item__price">{formatPrice(item.price)}</p>
-      <label className="visually-hidden" htmlFor={inputId}>Кількість «{item.bookTitle}»</label>
-      <input
-        className="field__input cart-item__qty"
-        id={inputId}
-        type="number"
-        min="1"
-        value={draft}
-        onChange={event => setDraft(event.target.value)}
-        onBlur={commit}
-        onKeyDown={event => event.key === "Enter" && event.currentTarget.blur()}
-      />
+      <div className="cart-item__qty">
+        <label className="visually-hidden" htmlFor={inputId}>Кількість «{item.bookTitle}», штук</label>
+        <input
+          className="field__input cart-item__qty-input"
+          id={inputId}
+          type="number"
+          min="1"
+          value={draft}
+          onChange={event => setDraft(event.target.value)}
+          onBlur={commit}
+          onKeyDown={event => event.key === "Enter" && event.currentTarget.blur()}
+        />
+        <span className="cart-item__unit" aria-hidden="true">шт.</span>
+      </div>
       <button
         className="cart-item__remove"
         type="button"

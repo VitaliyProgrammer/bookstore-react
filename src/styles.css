@@ -773,30 +773,33 @@ a:hover {
   font-size: 0.9375rem;
 }
 
+/* Вхід і реєстрація: одна картка по центру сторінки */
 .auth {
   display: grid;
-  gap: var(--space-6);
-  max-width: 960px;
-  margin-inline: auto;
-  align-items: start;
-}
-
-@media (min-width: 768px) {
-  .auth {
-    grid-template-columns: 1fr 1.25fr;
-  }
+  justify-items: center;
+  padding-block: var(--space-8);
 }
 
 .auth__card {
+  width: 100%;
+  max-width: 460px;
   background: var(--color-surface);
   padding: var(--space-8);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-panel);
+}
+
+.auth__card > p:last-child {
+  margin-top: var(--space-4);
+  text-align: center;
+  color: var(--color-muted);
 }
 
 .auth__title {
   font-size: 1.75rem;
   margin-bottom: var(--space-6);
+  text-align: center;
 }
 
 .form {
@@ -834,17 +837,30 @@ a:hover {
   color: var(--color-danger);
 }
 
+/* Кошик: телефон — список, форма, підсумок один під одним;
+   десктоп — ліворуч список і форма, праворуч липкий підсумок */
 .cart {
   display: grid;
   gap: var(--space-6);
   align-items: start;
+  grid-template-areas:
+    "list"
+    "form"
+    "summary";
 }
 
 @media (min-width: 1024px) {
   .cart {
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-areas:
+      "list summary"
+      "form summary";
   }
 }
+
+.cart__list { grid-area: list; }
+.cart .checkout { grid-area: form; }
+.cart .summary { grid-area: summary; }
 
 .cart__list {
   display: grid;
@@ -858,7 +874,7 @@ a:hover {
   grid-template-columns: 56px 1fr auto;
   grid-template-areas:
     "cover title remove"
-    "cover qty qty";
+    "cover price qty";
   align-items: center;
   gap: var(--space-3) var(--space-4);
   padding: var(--space-3);
@@ -869,13 +885,14 @@ a:hover {
 
 @media (min-width: 768px) {
   .cart-item {
-    grid-template-columns: 64px 1fr auto auto;
-    grid-template-areas: "cover title qty remove";
+    grid-template-columns: 64px 1fr auto auto auto;
+    grid-template-areas: "cover title price qty remove";
   }
 }
 
 .cart-item__cover { grid-area: cover; }
 .cart-item__title { grid-area: title; }
+.cart-item__price { grid-area: price; font-weight: 600; white-space: nowrap; }
 .cart-item__qty { grid-area: qty; }
 .cart-item__remove { grid-area: remove; }
 
@@ -892,9 +909,20 @@ a:hover {
 }
 
 .cart-item__qty {
-  width: 4.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   justify-self: start;
+}
+
+.cart-item__qty-input {
+  width: 4.5rem;
   text-align: center;
+}
+
+.cart-item__unit {
+  color: var(--color-muted);
+  font-weight: 500;
 }
 
 .cart-item__remove {
@@ -940,6 +968,17 @@ a:hover {
   text-align: right;
 }
 
+.summary__row--total {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
+  font-size: 1.125rem;
+}
+
+.summary__row--total dd {
+  color: var(--color-brand);
+  font-weight: 700;
+}
+
 .empty {
   display: grid;
   justify-items: center;
@@ -958,12 +997,117 @@ a:hover {
 
 .checkout {
   display: grid;
-  gap: var(--space-4);
-  max-width: 640px;
+  gap: var(--space-6);
   padding: var(--space-6);
   background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-panel);
+}
+
+.checkout__title {
+  font-size: 1.375rem;
+}
+
+.checkout__group {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.checkout__legend {
+  padding: 0;
+  margin-bottom: var(--space-1);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Спосіб доставки: картки-радіокнопки. Справжня radio лишається (клавіатура, скрінрідер),
+   але візуально схована — її стан малюють картка і кружечок */
+.radio-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--space-3);
+}
+
+.radio-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-line);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.radio-card:hover {
+  border-color: var(--color-brand);
+}
+
+.radio-card__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.radio-card__icon {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: var(--color-muted);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.radio-card__text {
+  display: grid;
+  line-height: 1.3;
+}
+
+.radio-card__text small {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+}
+
+.radio-card__dot {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-line);
+  border-radius: 50%;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.radio-card:has(.radio-card__input:checked) {
+  border-color: var(--color-brand);
+  background: var(--color-brand-soft);
+  box-shadow: var(--shadow-brand);
+}
+
+.radio-card:has(.radio-card__input:checked) .radio-card__icon {
+  stroke: var(--color-brand);
+}
+
+.radio-card:has(.radio-card__input:checked) .radio-card__dot {
+  border-color: var(--color-brand);
+  box-shadow: inset 0 0 0 4px var(--color-surface), inset 0 0 0 10px var(--color-brand);
+}
+
+.radio-card:has(.radio-card__input:focus-visible) {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
 textarea.field__input {
