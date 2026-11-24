@@ -348,9 +348,9 @@ a:hover {
 }
 
 /* Банер: глибокий червоний градієнт в одному тоні (без білих відблисків, щоб край не здавався вицвілим);
-   м'яке тепле світіння справа додає об'єму. Знизу більший відступ — на банер «наїжджає» панель пошуку */
+   м'яке тепле світіння справа додає об'єму */
 .hero {
-  padding: var(--space-8) var(--space-6) calc(var(--space-8) + 2.5rem);
+  padding: var(--space-8) var(--space-6);
   border-radius: var(--radius-lg);
   color: #ffffff;
   background:
@@ -502,15 +502,14 @@ a.contact-card__big:hover {
   font-size: 0.9375rem;
 }
 
-/* Панель пошуку «плаває» над нижнім краєм банера: біла картка з м'якою тінню */
+/* Панель пошуку — окрема біла картка під банером, на всю ширину:
+   ліві й праві краї на одній лінії з банером і панеллю жанрів */
 .search {
-  position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   align-items: end;
-  margin: -2.5rem var(--space-4) 0;
+  margin-top: var(--space-6);
   padding: var(--space-4) var(--space-6) var(--space-6);
   background: var(--color-surface);
   border: 1px solid var(--color-line);
@@ -564,7 +563,7 @@ a.contact-card__big:hover {
 .catalog-layout {
   display: grid;
   gap: var(--space-6);
-  margin-top: var(--space-8);
+  margin-top: var(--space-6);
   align-items: start;
 }
 

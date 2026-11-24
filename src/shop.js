@@ -8,6 +8,6 @@ export const SHOP = {
     ["Сб–Нд", "11:00–18:00"]
   ],
   phone: "+380 44 555 12 34",
-  email: "hello@tvoya-knyharnia.ua",
+  email: "tvoya-knyharnia@ukr.net",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Київ, вул. Ярославів Вал, 21")
 };
