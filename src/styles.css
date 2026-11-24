@@ -1181,29 +1181,33 @@ textarea.field__input {
   font-size: 0.875rem;
 }
 
-/* Дані доставки: окрема біла «картка» з підписаними рядками, щоб їх було легко прочитати */
+/* Дані доставки: тепла кремова плашка, щоб виділялася на білій картці замовлення.
+   Колонка підписів шириною рівно з найдовший підпис (max-content), тож значення стоять одразу після двокрапки */
 .order__delivery {
   display: grid;
-  gap: var(--space-2);
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
   margin: 0;
-  padding: var(--space-4);
-  background: var(--color-surface);
+  padding: var(--space-4) var(--space-4);
+  background: var(--color-surface-2);
   border: 1px solid var(--color-line);
   border-radius: 12px;
-  box-shadow: var(--shadow-sm);
   font-size: 1rem;
 }
 
+/* Рядок не створює власної сітки — dt і dd стають клітинками спільної сітки .order__delivery */
 .order__delivery-row {
-  display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
-  gap: var(--space-3);
+  display: contents;
 }
 
 .order__delivery dt {
   color: var(--color-muted);
   font-size: 0.875rem;
   padding-top: 0.1rem;
+}
+
+.order__delivery dt::after {
+  content: ":";
 }
 
 .order__delivery dd {
