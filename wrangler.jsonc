@@ -1,0 +1,12 @@
+// Cloudflare Workers Static Assets: how `npx wrangler deploy` publishes the built site.
+// The Worker name must match the project name in the Cloudflare dashboard.
+{
+  "name": "tvoya-knyharnia",
+  "compatibility_date": "2026-11-25",
+  "assets": {
+    // Output of `npm run build` (Vite)
+    "directory": "./dist",
+    // SPA: unknown paths such as /books/5 return index.html, then React Router renders the page
+    "not_found_handling": "single-page-application"
+  }
+}
