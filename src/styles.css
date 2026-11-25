@@ -1075,6 +1075,64 @@ a.contact-card__big:hover {
   color: var(--color-muted);
 }
 
+/* Демо-доступ під формою входу: відокремлений лінією, щоб не плутати з основною формою */
+.demo-access {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px dashed var(--color-line);
+}
+
+.demo-access__title {
+  font-size: 1rem;
+}
+
+.demo-access__text {
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+.demo-access__creds {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Банер «сервер прокидається»: смуга під шапкою на всю ширину, у кольорах бренду */
+.wake-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-brand-soft);
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.wake-banner--error {
+  background: #fcebed;
+  color: #8f1f29;
+}
+
+.wake-banner__spinner {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-line);
+  border-top-color: var(--color-brand);
+  border-radius: 50%;
+  animation: wake-spin 0.9s linear infinite;
+}
+
+@keyframes wake-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .auth__title {
   font-size: 1.75rem;
   margin-bottom: var(--space-6);

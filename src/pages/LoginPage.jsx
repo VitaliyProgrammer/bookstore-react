@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 import { userMessage } from "../utils/errors.js";
+import { DEMO_ACCOUNT } from "../config.js";
 
 // Приймаємо лише внутрішні шляхи ("/cart"), щоб ?returnTo=https://evil.com не перекинув людину на чужий сайт.
 function safeReturnTo(value) {
@@ -24,17 +25,27 @@ export default function LoginPage() {
     setForm(current => ({ ...current, [event.target.name]: event.target.value }));
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    setError(null);
     const email = form.email.trim();
     if (!email || !form.password) {
       setError("Введіть email і пароль");
       return;
     }
+    signIn(email, form.password);
+  }
+
+  // Демо-вхід: підставляємо дані в поля (людина бачить, що відбувається) і одразу входимо
+  function handleDemoLogin() {
+    setForm(DEMO_ACCOUNT);
+    signIn(DEMO_ACCOUNT.email, DEMO_ACCOUNT.password);
+  }
+
+  async function signIn(email, password) {
+    setError(null);
     setSubmitting(true);
     try {
-      await login(email, form.password);
+      await login(email, password);
       navigate(safeReturnTo(params.get("returnTo")), { replace: true });
     } catch (err) {
       // Бекенд на будь-які невірні дані відповідає 401 з однаковим текстом (не видає, чи існує email).
@@ -66,6 +77,16 @@ export default function LoginPage() {
           </div>
           <button className="btn btn--primary btn--block" type="submit" disabled={submitting}>Увійти</button>
         </form>
+        <aside className="demo-access" aria-labelledby="demo-title">
+          <h2 className="demo-access__title" id="demo-title">Хочете просто подивитися?</h2>
+          <p className="demo-access__text">
+            Демо-акаунт покупця: <span className="demo-access__creds">{DEMO_ACCOUNT.email}</span>{" "}
+            / <span className="demo-access__creds">{DEMO_ACCOUNT.password}</span>
+          </p>
+          <button className="btn btn--ghost btn--block" type="button" onClick={handleDemoLogin} disabled={submitting}>
+            Увійти як демо-покупець
+          </button>
+        </aside>
         <p>Немає акаунта? <Link to="/register">Зареєструватися</Link></p>
       </section>
     </div>
